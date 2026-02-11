@@ -60,3 +60,31 @@ export const detail = async (req: Request, res: Response) => {
     topic: topic,
   });
 };
+
+// [PATCH] /songs/like/:typeLike/:idSong
+export const like = async (req: Request, res: Response) => {
+  const song = await Song.findOne({
+    _id: req.params.idSong,
+    status: "active",
+    deleted: false,
+  });
+
+  const newLike: number =
+    req.params.typeLike == "yes" ? song.like + 1 : song.like - 1;
+
+  await Song.updateOne(
+    {
+      _id: req.params.idSong,
+    },
+    {
+      like: newLike,
+    }
+  );
+  // like: ["id_user_1", "id_user_2"]
+
+  res.json({
+    code: 200,
+    message: "Thành công!",
+    like: newLike,
+  });
+};

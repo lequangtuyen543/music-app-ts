@@ -28,3 +28,29 @@ if (aplayer) {
   });
 }
 // End APlayer
+
+// Button Like
+
+const buttonLike = document.querySelector("[button-like]");
+
+if (buttonLike) {
+  buttonLike.addEventListener("click", () => {
+    const idSong = buttonLike.getAttribute("button-like");
+    const isActive = buttonLike.classList.contains("active");
+
+    console.log(isActive);
+
+    const typeLike = isActive ? "no" : "yes";
+
+    fetch(`/songs/like/${typeLike}/${idSong}`, {
+      method: "PATCH",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        buttonLike.querySelector("span").innerHTML = `${data.like} thích`;
+        buttonLike.classList.toggle("active");
+      });
+  });
+}
+
+// End Button Like
