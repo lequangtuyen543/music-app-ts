@@ -47,10 +47,38 @@ if (buttonLike) {
     })
       .then((res) => res.json())
       .then((data) => {
-        buttonLike.querySelector("span").innerHTML = `${data.like} thích`;
-        buttonLike.classList.toggle("active");
+        if ((data.code = 200)) {
+          buttonLike.querySelector("span").innerHTML = `${data.like} thích`;
+
+          buttonLike.classList.toggle("active");
+        }
       });
   });
 }
 
 // End Button Like
+
+// Button Favorite
+
+const buttonFavorite = document.querySelector("[button-favorite]");
+
+if (buttonFavorite) {
+  buttonFavorite.addEventListener("click", () => {
+    const idSong = buttonFavorite.getAttribute("button-favorite");
+    const isActive = buttonFavorite.classList.contains("active");
+
+    const typeFavorite = isActive ? "unfavorite" : "favorite";
+
+    fetch(`/songs/favorite/${typeFavorite}/${idSong}`, {
+      method: "PATCH",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code == 200) {
+          buttonFavorite.classList.toggle("active");
+        }
+      });
+  });
+}
+
+// End Button Favorite

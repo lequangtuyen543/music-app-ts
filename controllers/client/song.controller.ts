@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Song from "../../models/song.model";
 import Topic from "../../models/topic.model";
 import Singer from "../../models/singer.model";
+import FavoriteSong from "../../models/favorite-song.model";
 
 // [GET] /songs/:slugTopic
 export const list = async (req: Request, res: Response) => {
@@ -53,6 +54,13 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
   }).select("title");
 
+  const favoriteSong = await FavoriteSong.findOne({
+    // userId: "",
+    songId: song.id,
+  });
+
+  song["isFavoriteSong"] = favoriteSong ? true : false;
+
   res.render("client/pages/songs/detail", {
     pageTitle: song.title,
     song: song,
@@ -63,18 +71,20 @@ export const detail = async (req: Request, res: Response) => {
 
 // [PATCH] /songs/like/:typeLike/:idSong
 export const like = async (req: Request, res: Response) => {
+  const idSong = req.params.idSong;
+  const typeLike = req.params.typeLike;
+
   const song = await Song.findOne({
-    _id: req.params.idSong,
+    _id: idSong,
     status: "active",
     deleted: false,
   });
 
-  const newLike: number =
-    req.params.typeLike == "yes" ? song.like + 1 : song.like - 1;
+  const newLike: number = typeLike == "yes" ? song.like + 1 : song.like - 1;
 
   await Song.updateOne(
     {
-      _id: req.params.idSong,
+      _id: idSong,
     },
     {
       like: newLike,
@@ -86,5 +96,42 @@ export const like = async (req: Request, res: Response) => {
     code: 200,
     message: "Thành công!",
     like: newLike,
+  });
+};
+
+// [PATCH] /songs/like/:typeFavorite/:idSong
+export const favorite = async (req: Request, res: Response) => {
+  const idSong = req.params.idSong;
+  const typeFavorite = req.params.typeFavorite;
+
+  switch (typeFavorite) {
+    case "favorite":
+      const existFavoriteSong = await FavoriteSong.findOne({
+        songId: idSong,
+      });
+      if (!existFavoriteSong) {
+        const favoriteSong = new FavoriteSong({
+          // userId: "",
+          songId: idSong,
+        });
+        await favoriteSong.save();
+      }
+
+      break;
+
+    case "unfavorite":
+      await FavoriteSong.deleteOne({
+        songId: idSong,
+      });
+
+      break;
+
+    default:
+      break;
+  }
+
+  res.json({
+    code: 200,
+    message: "Thành công!",
   });
 };
