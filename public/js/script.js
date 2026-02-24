@@ -26,6 +26,18 @@ if (aplayer) {
   ap.on("pause", function () {
     avatar.style.animationPlayState = "paused";
   });
+
+  ap.on("ended", function () {
+    fetch(`/songs/listen/${dataSong._id}`, {
+      method: "PATCH",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const innerList = document.querySelector(".inner-listen span");
+
+        innerList.innerHTML = `${data.listen} lượt nghe`;
+      });
+  });
 }
 // End APlayer
 
