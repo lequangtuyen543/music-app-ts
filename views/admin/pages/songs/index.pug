@@ -12,7 +12,7 @@ block main
           
         .col-4.text-right
           a(
-            href=`/${prefixAdmin}/songs/create`
+            href=`${prefixAdmin}/songs/create`
             class="btn btn-outline-success"
           ) + Thêm mới
 
@@ -59,11 +59,11 @@ block main
               td
                 a(
                   class="btn btn-secondary btn-sm"
-                  href=`/${prefixAdmin}/topics/detail/${item.id}`
+                  href=`${prefixAdmin}/topics/detail/${item.id}`
                 ) Chi tiết
                 a(
                   class="ml-1 btn btn-warning btn-sm"
-                  href=`/${prefixAdmin}/topics/edit/${item.id}`
+                  href=`${prefixAdmin}/topics/edit/${item.id}`
                 ) Sửa
                 button(
                   class="ml-1 btn btn-danger btn-sm"
