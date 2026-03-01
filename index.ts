@@ -5,6 +5,7 @@ import clientRoutes from "./routes/client/index.route";
 import adminRoutes from "./routes/admin/index.route";
 import { systemConfig } from "./config/config";
 import path from "path";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ app.use(express.static("public"));
 
 app.set("views", "./views");
 app.set("view engine", "pug");
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded());
 
 // TinyMCE
 app.use(

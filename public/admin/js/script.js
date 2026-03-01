@@ -15,3 +15,5 @@ if (uploadImage) {
   });
 }
 // End Upload Image
+
+console.log("ok");
