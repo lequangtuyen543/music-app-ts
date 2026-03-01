@@ -1,13 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express, { Express } from "express";
 import { connect } from "./config/database";
-import dotenv from "dotenv";
 import clientRoutes from "./routes/client/index.route";
 import adminRoutes from "./routes/admin/index.route";
 import { systemConfig } from "./config/config";
 import path from "path";
 import bodyParser from "body-parser";
-
-dotenv.config();
 
 connect();
 
