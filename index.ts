@@ -8,6 +8,7 @@ import adminRoutes from "./routes/admin/index.route";
 import { systemConfig } from "./config/config";
 import path from "path";
 import bodyParser from "body-parser";
+import methodOverride from "method-override";
 
 connect();
 
@@ -21,6 +22,9 @@ app.set("view engine", "pug");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded());
+app.use(express.json());
+
+app.use(methodOverride("_method"));
 
 // TinyMCE
 app.use(
