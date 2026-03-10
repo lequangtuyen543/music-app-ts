@@ -1,6 +1,7 @@
 tinymce.init({
   selector: "textarea.textarea-mce",
   plugins: "image",
+  images_upload_url: "/admin/upload",
   license_key: "gpl",
   file_picker_callback: (cb, value, meta) => {
     const input = document.createElement("input");
