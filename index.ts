@@ -1,7 +1,6 @@
+import express, { Express } from "express";
 import dotenv from "dotenv";
 dotenv.config();
-
-import express, { Express } from "express";
 import { connect } from "./config/database";
 import clientRoutes from "./routes/client/index.route";
 import adminRoutes from "./routes/admin/index.route";
@@ -15,9 +14,9 @@ connect();
 const app: Express = express();
 const port: number | string = process.env.PORT || 3000;
 
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 // parse application/x-www-form-urlencoded
